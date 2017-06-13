@@ -3,18 +3,48 @@ package kn0077.kr.hs.emirim.dbex;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+    Button butInit, butInsert, butSelect;
+    EditText editName, editCount,editResultName, editResultCount;
+    MyDBHelper myHelper;
+    SQLiteDatabase sqlDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        butInit=(Button)findViewById(R.id.but_init);
+        butInsert=(Button)findViewById(R.id.but_insert);
+        butSelect=(Button)findViewById(R.id.but_select);
+        editName=(EditText)findViewById(R.id.edit_group_name);
+        editCount=(EditText)findViewById(R.id.edit_group_count);
+        editResultName=(EditText)findViewById(R.id.edit_result_name);
+        editResultCount=(EditText)findViewById(R.id.edit_result_count);
+
+        //DB생성
+        myHelper=new MyDBHelper(this);
+
+        //기존의 테이블이 존재하면 삭제하고 테이블을 새로 생성한다.
+        butInit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sqlDB=myHelper.getWritableDatabase();
+                myHelper.onUpgrade(sqlDB,1,2);
+                sqlDB.close();
+            }
+        });
+
     }
 
-    class MyDBHelper extends SQLiteOpenHelper{//class와 똑같으며 class 안에 있는 거라는 것만 다름. 매개변수 전달의 번거로움이 사라지며 필드 사용이 쉽다.
+    class MyDBHelper extends SQLiteOpenHelper{//class와 똑같으며 class 안에 있는 거라는 것만 다름. 매개변수 전달의 번거로움이 사라지며 변수 사용이 쉽다.
 
         public MyDBHelper(Context context) { //idolDB라는 이름의 데이터베이스가 생성된다.
             super(context, "idolDB", null, 1/*첫번째 버전. 같은 이름의 DB가 있으면 또 다시 새로운 DB가 생성되지 않는다. 즉 똑같은 DB로 쭈욱 간다. 만약 똑같은 이름의 새로운 DB로 싹 바꾸고 싶다면 버전만 바꿔주면 됨.*/); //
