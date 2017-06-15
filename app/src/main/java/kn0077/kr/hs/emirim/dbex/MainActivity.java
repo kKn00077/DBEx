@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button butInit, butInsert, butSelect;
+    Button butInit, butInsert, butSelect, butUpdate;
     EditText editName, editCount,editResultName, editResultCount;
     MyDBHelper myHelper;
     SQLiteDatabase sqlDB;
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         butInit=(Button)findViewById(R.id.but_init);
         butInsert=(Button)findViewById(R.id.but_insert);
         butSelect=(Button)findViewById(R.id.but_select);
+        butUpdate=(Button)findViewById(R.id.but_update);
         editName=(EditText)findViewById(R.id.edit_group_name);
         editCount=(EditText)findViewById(R.id.edit_group_count);
         editResultName=(EditText)findViewById(R.id.edit_result_name);
@@ -55,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        butUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sqlDB=myHelper.getWritableDatabase();
+                String sql="update idolTable set idolCount="+editCount.getText()+" where idolName='"+editName.getText()+"'"; // 아이돌 테이블에 있는 아이돌카운트의 값을 수정한다. 어디 컬럼의 카운트? 아이돌 네임이 editName인 카운트
+                sqlDB.execSQL(sql);
+                sqlDB.close();
+                Toast.makeText(MainActivity.this, "수정됨",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
         butSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 String names="Idol 이름"+"\r\n"+"============="+"\r\n";
                 String counts="Idol 인원수"+"\r\n"+"============="+"\r\n";
                 while(cursor.moveToNext()!=false){
-                    names+=cursor.getString(0)+"\r\n"; //index 0. 첫번째 컬럼(열)의 값을 반환
+                    names+=cursor.getString(0)+"\r\n"; //index 0. 첫번째 컬럼(열)의 값을 환
                     counts += cursor.getInt(1)+"\r\n"; //index 1
                 }
                 editResultName.setText(names);
