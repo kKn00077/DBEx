@@ -78,9 +78,13 @@
             android:id="@+id/but_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="업데이트"
+            android:text="업데이트"/>
 
-            />
+        <Button
+            android:id="@+id/but_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제" />
 
     </LinearLayout>
 

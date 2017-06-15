@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button butInit, butInsert, butSelect, butUpdate;
+    Button butInit, butInsert, butSelect, butUpdate, butDelete;
     EditText editName, editCount,editResultName, editResultCount;
     MyDBHelper myHelper;
     SQLiteDatabase sqlDB;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         butInsert=(Button)findViewById(R.id.but_insert);
         butSelect=(Button)findViewById(R.id.but_select);
         butUpdate=(Button)findViewById(R.id.but_update);
+        butDelete=(Button)findViewById(R.id.but_delete);
         editName=(EditText)findViewById(R.id.edit_group_name);
         editCount=(EditText)findViewById(R.id.edit_group_count);
         editResultName=(EditText)findViewById(R.id.edit_result_name);
@@ -64,6 +65,17 @@ public class MainActivity extends AppCompatActivity {
                 sqlDB.execSQL(sql);
                 sqlDB.close();
                 Toast.makeText(MainActivity.this, "수정됨",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        butDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sqlDB=myHelper.getWritableDatabase();
+                String sql="delete from idolTable where idolName='"+editName.getText()+"'";
+                sqlDB.execSQL(sql);
+                sqlDB.close();
+                Toast.makeText(MainActivity.this,"삭제됨",Toast.LENGTH_LONG).show();
             }
         });
 
