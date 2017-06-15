@@ -62,8 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 String sql="select * from idolTable";
                 Cursor cursor = sqlDB.rawQuery(sql,null);
                 String names="Idol 이름"+"\r\n"+"============="+"\r\n";
-                String count="Idol 인원수"+"\r\n"+"============="+"\r\n";
-                while(cursor.moveToNext()!=false)
+                String counts="Idol 인원수"+"\r\n"+"============="+"\r\n";
+                while(cursor.moveToNext()!=false){
+                    names+=cursor.getString(0)+"\r\n"; //index 0. 첫번째 컬럼(열)의 값을 반환
+                    counts += cursor.getInt(1)+"\r\n"; //index 1
+                }
+                editResultName.setText(names);
+                editResultCount.setText(counts);
+                cursor.close();
+                sqlDB.close();
             }
         });
 
@@ -85,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         // 이미 idolTable이 존재한다면 기존의 테이블을 삭제하고 새로 테이블을 만들 때
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-            String sql="drop table if exist idolTable"; // 만약 idolTable 테이블이 존재할 경우 삭제하라
+            String sql="drop table if exists idolTable"; // 만약 idolTable 테이블이 존재할 경우 삭제하라
             sqLiteDatabase.execSQL(sql);
             onCreate(sqLiteDatabase);
         }
