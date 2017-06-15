@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         //DB생성
         myHelper=new MyDBHelper(this);
 
+        select();
+
         //기존의 테이블이 존재하면 삭제하고 테이블을 새로 생성한다.
         butInit.setOnClickListener(new View.OnClickListener() {
             @Override
